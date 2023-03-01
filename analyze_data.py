@@ -12,3 +12,8 @@ artist_popularity = artist_df.groupby('artist')['popularity'].mean()
 # Sort the data in descending order of popularity and plot a bar chart
 artist_popularity_sorted = artist_popularity.sort_values(ascending=False)
 artist_popularity_sorted.plot(kind='bar
+
+# Sort the data in ascending order of popularity and plot a bar chart
+#Edit>>
+artist_popularity_sorted = artist_popularity.sort_values(descending=False)
+artist_popularity_sorted.plot(kind='bar
