@@ -1,0 +1,67 @@
+import requests
+import pandas as pd
+from flask import Flask, render_template, request
+
+# Set up Flask app
+app = Flask(__name__)
+
+# Spotify API endpoints and authorization token
+SPOTIFY_API_BASE_URL = 'https://api.spotify.com/v1/'
+SPOTIFY_AUTH_TOKEN = 'your_auth_token_here'
+
+# Homepage
+@app.route('/')
+def index():
+    # Display welcome message and brief description
+    return render_template('index.html')
+
+# Search function
+@app.route('/search')
+def search():
+    query = request.args.get('query')
+    # Use Spotify API to search for artists, songs, or playlists
+    search_results = requests.get(
+        SPOTIFY_API_BASE_URL + 'search',
+        headers={'Authorization': f'Bearer {SPOTIFY_AUTH_TOKEN}'},
+        params={'q': query, 'type': 'artist,track,playlist'}
+    ).json()
+    return render_template('search_results.html', results=search_results)
+
+# Dashboard
+@app.route('/dashboard')
+def dashboard():
+    # Use Spotify API to get personalized recommendations, recently played songs and playlists, and recommended playlists and songs
+    return render_template('dashboard.html')
+
+# Explore page
+@app.route('/explore')
+def explore():
+    # Use Spotify API to browse playlists based on genre, mood, or activity, and display top artists and songs
+    return render_template('explore.html')
+
+# Profile
+@app.route('/profile')
+def profile():
+    # Use Spotify API to display user's listening history and statistics, favorite artists, songs, and playlists, and connect with friends
+    return render_template('profile.html')
+
+# Playlists
+@app.route('/playlists')
+def playlists():
+    # Use Spotify API to display user's playlists, view and play songs in the playlist, and share playlists with friends or on social media
+    return render_template('playlists.html')
+
+# Song page
+@app.route('/song/<id>')
+def song(id):
+    # Use Spotify API to display song title, artist name, album art, and allow user to play song, view lyrics, add song to playlist or save it as a favorite
+    return render_template('song.html')
+
+# Artist page
+@app.route('/artist/<id>')
+def artist(id):
+    # Use Spotify API to display artist bio and information, top songs and albums, and upcoming concerts and events
+    return render_template('artist.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
